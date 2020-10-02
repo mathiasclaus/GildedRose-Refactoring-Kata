@@ -97,4 +97,67 @@ class GildedRoseTest {
         assertEquals(80, app.items[0].quality);
     }
 
+    @Test
+    @DisplayName("When sellin above 10, backstage passes quality increases by one")
+    void whenSellinAboveTenThenBackstagePassQualityIncreasesByOne() {
+        Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 11, 10) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(11, app.items[0].quality);
+    }
+
+
+    @Test
+    @DisplayName("When sellin is 10, backstage passes quality increases by two")
+    void whenSellinIsTenThenBackstagePassQualityIncreasesByTwo() {
+        Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 10, 10) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(12, app.items[0].quality);
+    }
+
+    @Test
+    @DisplayName("When sellin is between 5 and 10, backstage passes quality increases by two")
+    void whenSellinIsBetweenFiveAndTenThenBackstagePassQualityIncreasesByTwo() {
+        Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 7, 10) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(12, app.items[0].quality);
+    }
+
+    @Test
+    @DisplayName("When sellin is 5, backstage passes quality increases by three")
+    void whenSellinIsFiveThenBackstagePassQualityIncreasesByThree() {
+        Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 5, 10) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(13, app.items[0].quality);
+    }
+
+    @Test
+    @DisplayName("When sellin is between 0 and 5, backstage passes quality increases by three")
+    void whenSellinIsBetweenZeroAndFiveThenBackstagePassQualityIncreasesByThree() {
+        Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 2, 10) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(13, app.items[0].quality);
+    }
+
+    @Test
+    @DisplayName("When sellin is 0, backstage passes quality drops to zero")
+    void whenSellinIsZeroThenBackstagePassQualityDropsToZero() {
+        Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 0, 10) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(0, app.items[0].quality);
+    }
+
+    @Test
+    @DisplayName("When sellin is negative, backstage passes quality drops to zero")
+    void whenSellinIsNegativeThenBackstagePassQualityDropsToZero() {
+        Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", -1, 10) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(0, app.items[0].quality);
+    }
 }
