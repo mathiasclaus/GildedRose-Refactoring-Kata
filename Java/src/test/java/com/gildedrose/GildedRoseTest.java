@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class GildedRoseTest {
 
     @Test
-    @DisplayName("The name does not change after update quality")
+    @DisplayName("The name does not change after updating quality")
     void nameDoesNotChange() {
         Item[] items = { new Item("foo", 0, 0) };
         GildedRose app = new GildedRose(items);
@@ -23,6 +23,36 @@ class GildedRoseTest {
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertEquals(0, app.items[0].sellIn);
+    }
+
+    @Test
+    @DisplayName("SellIn lowers of all items")
+    void sellInLowersOfAllItems() {
+        Item[] items = {
+                new Item("foo", 1, 10),
+                new Item("bar", -10, 20),
+                new Item("Something that random that will never be picked", 10000, 30)
+        };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(0, app.items[0].sellIn);
+        assertEquals(-11, app.items[1].sellIn);
+        assertEquals(9999, app.items[2].sellIn);
+    }
+
+    @Test
+    @DisplayName("Quality lowers of all items")
+    void qualityLowersOfAllItems() {
+        Item[] items = {
+                new Item("foo", 1, 10),
+                new Item("bar", 10, 20),
+                new Item("Something that random that will never be picked", 10000, 30)
+        };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(9, app.items[0].quality);
+        assertEquals(19, app.items[1].quality);
+        assertEquals(29, app.items[2].quality);
     }
 
     @Test
