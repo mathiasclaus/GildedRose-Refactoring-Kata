@@ -17,8 +17,17 @@ class GildedRoseTest {
     }
 
     @Test
-    @DisplayName("When sellin is positive, the quality decreases by one")
-    void whenSellinPositiveQualityDecreasesByOne() {
+    @DisplayName("SellIn lowers when updating quality")
+    void sellInLowersWhenUpdatingQuality() {
+        Item[] items = { new Item("foo", 1, 10) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(0, app.items[0].sellIn);
+    }
+
+    @Test
+    @DisplayName("When sellIn is positive, the quality decreases by one")
+    void whenSellInPositiveQualityDecreasesByOne() {
         Item[] items = { new Item("foo", 1, 10) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
@@ -26,8 +35,8 @@ class GildedRoseTest {
     }
 
     @Test
-    @DisplayName("When sellin is zero, the quality decreases by two")
-    void whenSellinZeroQualityDecreasesByTwo() {
+    @DisplayName("When sellIn is zero, the quality decreases by two")
+    void whenSellInZeroQualityDecreasesByTwo() {
         Item[] items = { new Item("foo", 0, 10) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
@@ -35,8 +44,8 @@ class GildedRoseTest {
     }
 
     @Test
-    @DisplayName("When sellin is negative, the quality decreases by two")
-    void whenSellinNegativeQualityDecreasesByTwo() {
+    @DisplayName("When sellIn is negative, the quality decreases by two")
+    void whenSellInNegativeQualityDecreasesByTwo() {
         Item[] items = { new Item("foo", -1, 10) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
@@ -53,8 +62,8 @@ class GildedRoseTest {
     }
 
     @Test
-    @DisplayName("when sellin is positive, Aged Brie quality increases by one")
-    void whenSellinPositiveAgedBrieQualityIncreasesByOne() {
+    @DisplayName("when sellIn is positive, Aged Brie quality increases by one")
+    void whenSellInPositiveAgedBrieQualityIncreasesByOne() {
         Item[] items = { new Item("Aged Brie", 1, 10) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
@@ -62,8 +71,8 @@ class GildedRoseTest {
     }
 
     @Test
-    @DisplayName("when sellin is zero, Aged Brie increases double in quality")
-    void whenSellinZeroAgedBrieQualityIncreasesDouble() {
+    @DisplayName("when sellIn is zero, Aged Brie increases double in quality")
+    void whenSellInZeroAgedBrieQualityIncreasesDouble() {
         Item[] items = { new Item("Aged Brie", 0, 10) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
@@ -71,8 +80,8 @@ class GildedRoseTest {
     }
 
     @Test
-    @DisplayName("when sellin is negative, Aged Brie increases double in quality")
-    void whenSellinNegativeAgedBrieQualityIncreasesDouble() {
+    @DisplayName("when sellIn is negative, Aged Brie increases double in quality")
+    void whenSellInNegativeAgedBrieQualityIncreasesDouble() {
         Item[] items = { new Item("Aged Brie", -1, 10) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
@@ -98,8 +107,8 @@ class GildedRoseTest {
     }
 
     @Test
-    @DisplayName("When sellin above 10, backstage passes quality increases by one")
-    void whenSellinAboveTenThenBackstagePassQualityIncreasesByOne() {
+    @DisplayName("When sellIn above 10, backstage passes quality increases by one")
+    void whenSellInAboveTenThenBackstagePassQualityIncreasesByOne() {
         Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 11, 10) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
@@ -108,8 +117,8 @@ class GildedRoseTest {
 
 
     @Test
-    @DisplayName("When sellin is 10, backstage passes quality increases by two")
-    void whenSellinIsTenThenBackstagePassQualityIncreasesByTwo() {
+    @DisplayName("When sellIn is 10, backstage passes quality increases by two")
+    void whenSellInIsTenThenBackstagePassQualityIncreasesByTwo() {
         Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 10, 10) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
@@ -117,8 +126,8 @@ class GildedRoseTest {
     }
 
     @Test
-    @DisplayName("When sellin is between 5 and 10, backstage passes quality increases by two")
-    void whenSellinIsBetweenFiveAndTenThenBackstagePassQualityIncreasesByTwo() {
+    @DisplayName("When sellIn is between 5 and 10, backstage passes quality increases by two")
+    void whenSellInIsBetweenFiveAndTenThenBackstagePassQualityIncreasesByTwo() {
         Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 7, 10) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
@@ -126,8 +135,8 @@ class GildedRoseTest {
     }
 
     @Test
-    @DisplayName("When sellin is 5, backstage passes quality increases by three")
-    void whenSellinIsFiveThenBackstagePassQualityIncreasesByThree() {
+    @DisplayName("When sellIn is 5, backstage passes quality increases by three")
+    void whenSellInIsFiveThenBackstagePassQualityIncreasesByThree() {
         Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 5, 10) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
@@ -135,8 +144,8 @@ class GildedRoseTest {
     }
 
     @Test
-    @DisplayName("When sellin is between 0 and 5, backstage passes quality increases by three")
-    void whenSellinIsBetweenZeroAndFiveThenBackstagePassQualityIncreasesByThree() {
+    @DisplayName("When sellIn is between 0 and 5, backstage passes quality increases by three")
+    void whenSellInIsBetweenZeroAndFiveThenBackstagePassQualityIncreasesByThree() {
         Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 2, 10) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
@@ -144,8 +153,8 @@ class GildedRoseTest {
     }
 
     @Test
-    @DisplayName("When sellin is 0, backstage passes quality drops to zero")
-    void whenSellinIsZeroThenBackstagePassQualityDropsToZero() {
+    @DisplayName("When sellIn is 0, backstage passes quality drops to zero")
+    void whenSellInIsZeroThenBackstagePassQualityDropsToZero() {
         Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 0, 10) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
@@ -153,8 +162,8 @@ class GildedRoseTest {
     }
 
     @Test
-    @DisplayName("When sellin is negative, backstage passes quality drops to zero")
-    void whenSellinIsNegativeThenBackstagePassQualityDropsToZero() {
+    @DisplayName("When sellIn is negative, backstage passes quality drops to zero")
+    void whenSellInIsNegativeThenBackstagePassQualityDropsToZero() {
         Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", -1, 10) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
