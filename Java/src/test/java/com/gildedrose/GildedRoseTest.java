@@ -44,12 +44,39 @@ class GildedRoseTest {
     }
 
     @Test
-    @DisplayName("The Quality of an item is not negative after update quality")
+    @DisplayName("The quality of an item is not negative after update quality")
     void qualityNotNegative() {
         Item[] items = { new Item("foo", 0, 0) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertEquals(0, app.items[0].quality);
+    }
+
+    @Test
+    @DisplayName("when sellin is positive, Aged Brie quality increases by one")
+    void whenSellinPositiveAgedBrieQualityIncreasesByOne() {
+        Item[] items = { new Item("Aged Brie", 1, 10) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(11, app.items[0].quality);
+    }
+
+    @Test
+    @DisplayName("when sellin is zero, Aged Brie increases double in quality")
+    void whenSellinZeroAgedBrieQualityIncreasesDouble() {
+        Item[] items = { new Item("Aged Brie", 0, 10) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(12, app.items[0].quality);
+    }
+
+    @Test
+    @DisplayName("when sellin is negative, Aged Brie increases double in quality")
+    void whenSellinNegativeAgedBrieQualityIncreasesDouble() {
+        Item[] items = { new Item("Aged Brie", -1, 10) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(12, app.items[0].quality);
     }
 
 }
