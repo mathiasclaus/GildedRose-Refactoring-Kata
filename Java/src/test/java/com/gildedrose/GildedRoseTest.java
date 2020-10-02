@@ -1,6 +1,7 @@
 package com.gildedrose;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -41,21 +42,6 @@ class GildedRoseTest {
     }
 
     @Test
-    @DisplayName("Quality lowers of all items")
-    void qualityLowersOfAllItems() {
-        Item[] items = {
-                new Item("foo", 1, 10),
-                new Item("bar", 10, 20),
-                new Item("Something that random that will never be picked", 10000, 30)
-        };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals(9, app.items[0].quality);
-        assertEquals(19, app.items[1].quality);
-        assertEquals(29, app.items[2].quality);
-    }
-
-    @Test
     @DisplayName("When sellIn is positive, the quality decreases by one")
     void whenSellInPositiveQualityDecreasesByOne() {
         Item[] items = { new Item("foo", 1, 10) };
@@ -83,8 +69,8 @@ class GildedRoseTest {
     }
 
     @Test
-    @DisplayName("The quality of an item is not negative after update quality")
-    void qualityNotNegative() {
+    @DisplayName("The quality of an item is never negative")
+    void qualityNeverNegative() {
         Item[] items = { new Item("foo", 0, 0) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
@@ -92,30 +78,49 @@ class GildedRoseTest {
     }
 
     @Test
-    @DisplayName("when sellIn is positive, Aged Brie quality increases by one")
-    void whenSellInPositiveAgedBrieQualityIncreasesByOne() {
-        Item[] items = { new Item("Aged Brie", 1, 10) };
+    @DisplayName("Quality lowers of all items")
+    void qualityLowersOfAllItems() {
+        Item[] items = {
+                new Item("foo", 1, 10),
+                new Item("bar", -10, 20),
+                new Item("Something that random that will never be picked", 10000, 30)
+        };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
-        assertEquals(11, app.items[0].quality);
+        assertEquals(9, app.items[0].quality);
+        assertEquals(18, app.items[1].quality);
+        assertEquals(29, app.items[2].quality);
     }
 
-    @Test
-    @DisplayName("when sellIn is zero, Aged Brie increases double in quality")
-    void whenSellInZeroAgedBrieQualityIncreasesDouble() {
-        Item[] items = { new Item("Aged Brie", 0, 10) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals(12, app.items[0].quality);
-    }
+    @Nested
+    @DisplayName("Quality of Aged Brie")
+    class AgedBrieQuality {
+        @Test
+        @DisplayName("increases by one when sellIn is positive")
+        void increasesByOneWhenSellInPositive() {
+            Item[] items = { new Item("Aged Brie", 1, 10) };
+            GildedRose app = new GildedRose(items);
+            app.updateQuality();
+            assertEquals(11, app.items[0].quality);
+        }
 
-    @Test
-    @DisplayName("when sellIn is negative, Aged Brie increases double in quality")
-    void whenSellInNegativeAgedBrieQualityIncreasesDouble() {
-        Item[] items = { new Item("Aged Brie", -1, 10) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals(12, app.items[0].quality);
+        @Test
+        @DisplayName("increase by two when sellIn is zero")
+        void increasesByTwowhenSellInZero() {
+            Item[] items = { new Item("Aged Brie", 0, 10) };
+            GildedRose app = new GildedRose(items);
+            app.updateQuality();
+            assertEquals(12, app.items[0].quality);
+        }
+
+        @Test
+        @DisplayName("increases by two when sellIn is negative")
+        void increasesByTwoWhenSellInNegative() {
+            Item[] items = { new Item("Aged Brie", -1, 10) };
+            GildedRose app = new GildedRose(items);
+            app.updateQuality();
+            assertEquals(12, app.items[0].quality);
+        }
     }
 
     @Test
@@ -136,67 +141,71 @@ class GildedRoseTest {
         assertEquals(80, app.items[0].quality);
     }
 
-    @Test
-    @DisplayName("When sellIn above 10, backstage passes quality increases by one")
-    void whenSellInAboveTenThenBackstagePassQualityIncreasesByOne() {
-        Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 11, 10) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals(11, app.items[0].quality);
-    }
+    @Nested
+    @DisplayName("Quality of backstage passes ")
+    class BackStagePassesQuality {
+        @Test
+        @DisplayName("increases by one when sellIn above 10")
+        void increasesByOneWhenSellInAboveTen() {
+            Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 11, 10) };
+            GildedRose app = new GildedRose(items);
+            app.updateQuality();
+            assertEquals(11, app.items[0].quality);
+        }
 
 
-    @Test
-    @DisplayName("When sellIn is 10, backstage passes quality increases by two")
-    void whenSellInIsTenThenBackstagePassQualityIncreasesByTwo() {
-        Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 10, 10) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals(12, app.items[0].quality);
-    }
+        @Test
+        @DisplayName("increases by two when sellIn is 10")
+        void increasesByTwoWhenSellInIsTen() {
+            Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 10, 10) };
+            GildedRose app = new GildedRose(items);
+            app.updateQuality();
+            assertEquals(12, app.items[0].quality);
+        }
 
-    @Test
-    @DisplayName("When sellIn is between 5 and 10, backstage passes quality increases by two")
-    void whenSellInIsBetweenFiveAndTenThenBackstagePassQualityIncreasesByTwo() {
-        Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 7, 10) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals(12, app.items[0].quality);
-    }
+        @Test
+        @DisplayName("increases by two when sellIn is between 5 and 10")
+        void increasesByTwoWhenSellInIsBetweenFiveAndTen() {
+            Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 7, 10) };
+            GildedRose app = new GildedRose(items);
+            app.updateQuality();
+            assertEquals(12, app.items[0].quality);
+        }
 
-    @Test
-    @DisplayName("When sellIn is 5, backstage passes quality increases by three")
-    void whenSellInIsFiveThenBackstagePassQualityIncreasesByThree() {
-        Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 5, 10) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals(13, app.items[0].quality);
-    }
+        @Test
+        @DisplayName("increases by three when sellIn is 5")
+        void increasesByThreeWhenSellInIsFive() {
+            Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 5, 10) };
+            GildedRose app = new GildedRose(items);
+            app.updateQuality();
+            assertEquals(13, app.items[0].quality);
+        }
 
-    @Test
-    @DisplayName("When sellIn is between 0 and 5, backstage passes quality increases by three")
-    void whenSellInIsBetweenZeroAndFiveThenBackstagePassQualityIncreasesByThree() {
-        Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 2, 10) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals(13, app.items[0].quality);
-    }
+        @Test
+        @DisplayName("increases by three when sellIn is between 0 and 5")
+        void increasesByThreeWhenSellInIsBetweenZeroAndFive() {
+            Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 2, 10) };
+            GildedRose app = new GildedRose(items);
+            app.updateQuality();
+            assertEquals(13, app.items[0].quality);
+        }
 
-    @Test
-    @DisplayName("When sellIn is 0, backstage passes quality drops to zero")
-    void whenSellInIsZeroThenBackstagePassQualityDropsToZero() {
-        Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 0, 10) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals(0, app.items[0].quality);
-    }
+        @Test
+        @DisplayName("drops to 0 when sellIn is 0")
+        void dropsToZeroWhenSellInIsZero() {
+            Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", 0, 10) };
+            GildedRose app = new GildedRose(items);
+            app.updateQuality();
+            assertEquals(0, app.items[0].quality);
+        }
 
-    @Test
-    @DisplayName("When sellIn is negative, backstage passes quality drops to zero")
-    void whenSellInIsNegativeThenBackstagePassQualityDropsToZero() {
-        Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", -1, 10) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals(0, app.items[0].quality);
+        @Test
+        @DisplayName("drops to 0 when sellIn is negative")
+        void dropsToZeroWhenSellInIsNegative() {
+            Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", -1, 10) };
+            GildedRose app = new GildedRose(items);
+            app.updateQuality();
+            assertEquals(0, app.items[0].quality);
+        }
     }
 }
