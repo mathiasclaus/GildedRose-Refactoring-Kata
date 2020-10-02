@@ -88,4 +88,13 @@ class GildedRoseTest {
         assertEquals(50, app.items[0].quality);
     }
 
+    @Test
+    @DisplayName("Sulfuras does not decrease in quality")
+    void sulfurasDoesNotDecreasInQuality() {
+        Item[] items = { new Item("Sulfuras, Hand of Ragnaros", 1, 80) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(80, app.items[0].quality);
+    }
+
 }
