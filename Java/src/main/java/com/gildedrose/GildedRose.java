@@ -18,27 +18,12 @@ class GildedRose {
 
             item.sellIn--;
 
-            if (qualityIncreasesByAge(item)) {
-                item.quality++;
-
-                if (isBackstagePasses(item)) {
-                    updateQualityOfBackstagePasses(item);
-                }
+            if (isAgedBrie(item)) {
+                updateQualityOfAgedBrie(item);
+            } else if (isBackstagePasses(item)) {
+                updateQualityOfBackstagePasses(item);
             } else {
-                item.quality--;
-            }
-
-
-            if (sellByDatePassed(item)) {
-                if (qualityIncreasesByAge(item)) {
-                    if (isBackstagePasses(item)) {
-                        item.quality = MINIMUM_QUALITY;
-                    } else {
-                        item.quality++;
-                    }
-                } else {
-                    item.quality--;
-                }
+                updateQualityDefault(item);
             }
 
             if (item.quality < MINIMUM_QUALITY) {
@@ -63,18 +48,32 @@ class GildedRose {
         return "Aged Brie".equals(item.name);
     }
 
-    private void updateQualityOfBackstagePasses(Item item) {
-        if (item.sellIn < 10) {
-            item.quality++;
+    private void updateQualityDefault(Item item) {
+        if (sellByDatePassed(item)) {
+            item.quality = item.quality - 2;
+        } else {
+            item.quality--;
         }
+    }
 
-        if (item.sellIn < 5) {
+    private void updateQualityOfAgedBrie(Item item) {
+        if (sellByDatePassed(item)) {
+            item.quality = item.quality + 2;
+        } else {
             item.quality++;
         }
     }
 
-    private boolean qualityIncreasesByAge(Item item) {
-        return isAgedBrie(item) || isBackstagePasses(item);
+    private void updateQualityOfBackstagePasses(Item item) {
+        if (sellByDatePassed(item)) {
+            item.quality = MINIMUM_QUALITY;
+        } else if (item.sellIn >= 5 && item.sellIn < 10) {
+            item.quality = item.quality + 2;
+        } else if (item.sellIn >= 0 && item.sellIn < 5) {
+            item.quality = item.quality + 3;
+        } else {
+            item.quality++;
+        }
     }
 
     private boolean sellByDatePassed(Item item) {
