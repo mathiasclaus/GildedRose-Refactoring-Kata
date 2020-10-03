@@ -92,6 +92,27 @@ class GildedRoseTest {
         assertEquals(29, app.items[2].quality);
     }
 
+    @Test
+    @DisplayName("Null items are ignored")
+    void nullItemsAreIgnored() {
+        Item[] items = {
+                new Item("foo", 1, 10),
+                null
+        };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(9, app.items[0].quality);
+    }
+
+    @Test
+    @DisplayName("When item name is null, the quality is still decreased by default amount")
+    void itemNameIsNull() {
+        Item[] items = {new Item(null, 1, 10),};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(9, app.items[0].quality);
+    }
+
     @Nested
     @DisplayName("Quality of Aged Brie")
     class AgedBrieQuality {
