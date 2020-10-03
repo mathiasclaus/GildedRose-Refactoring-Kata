@@ -11,7 +11,7 @@ class GildedRose {
     }
 
     public void updateQuality() {
-        for (Item item : items) {
+        for (final Item item : items) {
             if (isSulfuras(item)) {
                 return; // TODO handle edge case better, but this cleans up the code for now
             }
@@ -26,29 +26,23 @@ class GildedRose {
                 updateQualityDefault(item);
             }
 
-            if (item.quality < MINIMUM_QUALITY) {
-                item.quality = MINIMUM_QUALITY;
-            }
-
-            if (item.quality > MAXIMUM_QUALITY) {
-                item.quality = MAXIMUM_QUALITY;
-            }
+            enforceQualityBoundaries(item);
         }
     }
 
-    private boolean isSulfuras(Item item) {
+    private boolean isSulfuras(final Item item) {
         return "Sulfuras, Hand of Ragnaros".equals(item.name);
     }
 
-    private boolean isBackstagePasses(Item item) {
+    private boolean isBackstagePasses(final Item item) {
         return "Backstage passes to a TAFKAL80ETC concert".equals(item.name);
     }
 
-    private boolean isAgedBrie(Item item) {
+    private boolean isAgedBrie(final Item item) {
         return "Aged Brie".equals(item.name);
     }
 
-    private void updateQualityDefault(Item item) {
+    private void updateQualityDefault(final Item item) {
         if (sellByDatePassed(item)) {
             item.quality = item.quality - 2;
         } else {
@@ -56,7 +50,7 @@ class GildedRose {
         }
     }
 
-    private void updateQualityOfAgedBrie(Item item) {
+    private void updateQualityOfAgedBrie(final Item item) {
         if (sellByDatePassed(item)) {
             item.quality = item.quality + 2;
         } else {
@@ -64,7 +58,7 @@ class GildedRose {
         }
     }
 
-    private void updateQualityOfBackstagePasses(Item item) {
+    private void updateQualityOfBackstagePasses(final Item item) {
         if (sellByDatePassed(item)) {
             item.quality = MINIMUM_QUALITY;
         } else if (item.sellIn >= 5 && item.sellIn < 10) {
@@ -76,8 +70,17 @@ class GildedRose {
         }
     }
 
-    private boolean sellByDatePassed(Item item) {
+    private boolean sellByDatePassed(final Item item) {
         return item.sellIn < 0;
     }
 
+    private void enforceQualityBoundaries(final Item item) {
+        if (item.quality < MINIMUM_QUALITY) {
+            item.quality = MINIMUM_QUALITY;
+        }
+
+        if (item.quality > MAXIMUM_QUALITY) {
+            item.quality = MAXIMUM_QUALITY;
+        }
+    }
 }
