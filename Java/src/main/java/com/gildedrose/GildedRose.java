@@ -23,17 +23,7 @@ class GildedRose {
                     item.quality = item.quality + 1;
 
                     if (isBackstagePasses(item)) {
-                        if (item.sellIn <= 10) {
-                            if (item.quality < MAXIMUM_QUALITY) {
-                                item.quality = item.quality + 1;
-                            }
-                        }
-
-                        if (item.sellIn <= 5) {
-                            if (item.quality < MAXIMUM_QUALITY) {
-                                item.quality = item.quality + 1;
-                            }
-                        }
+                        updateQualityOfBackstagePasses(item);
                     }
                 }
             }
@@ -73,4 +63,19 @@ class GildedRose {
     private boolean isAgedBrie(Item item) {
         return "Aged Brie".equals(item.name);
     }
+
+    private void updateQualityOfBackstagePasses(Item item) {
+        if (item.sellIn <= 10) {
+            if (item.quality < MAXIMUM_QUALITY) {
+                item.quality = item.quality + 1;
+            }
+        }
+
+        if (item.sellIn <= 5) {
+            if (item.quality < MAXIMUM_QUALITY) {
+                item.quality = item.quality + 1;
+            }
+        }
+    }
+
 }
