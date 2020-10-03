@@ -16,11 +16,7 @@ class GildedRose {
                 return; // TODO handle edge case better, but this cleans up the code for now
             }
 
-            if (!isAgedBrie(item) && !isBackstagePasses(item)) {
-                if (item.quality > MINIMUM_QUALITY) {
-                    item.quality = item.quality - 1;
-                }
-            } else {
+            if (qualityIncreasesByAge(item)) {
                 if (item.quality < MAXIMUM_QUALITY) {
                     item.quality = item.quality + 1;
 
@@ -28,22 +24,26 @@ class GildedRose {
                         updateQualityOfBackstagePasses(item);
                     }
                 }
+            } else {
+                if (item.quality > MINIMUM_QUALITY) {
+                    item.quality = item.quality - 1;
+                }
             }
 
             item.sellIn = item.sellIn - 1;
 
-            if (item.sellIn < MINIMUM_QUALITY) {
-                if (!isAgedBrie(item)) {
-                    if (!isBackstagePasses(item)) {
-                        if (item.quality > MINIMUM_QUALITY) {
-                            item.quality = item.quality - 1;
+            if (sellByDatePassed(item)) {
+                if (qualityIncreasesByAge(item)) {
+                    if (item.quality < MAXIMUM_QUALITY) {
+                        if (isBackstagePasses(item)) {
+                            item.quality = MINIMUM_QUALITY;
+                        } else {
+                            item.quality = item.quality + 1;
                         }
-                    } else {
-                        item.quality = MINIMUM_QUALITY;
                     }
                 } else {
-                    if (item.quality < MAXIMUM_QUALITY) {
-                        item.quality = item.quality + 1;
+                    if (item.quality > MINIMUM_QUALITY) {
+                        item.quality = item.quality - 1;
                     }
                 }
             }
@@ -74,6 +74,14 @@ class GildedRose {
                 item.quality = item.quality + 1;
             }
         }
+    }
+
+    private boolean qualityIncreasesByAge(Item item) {
+        return isAgedBrie(item) || isBackstagePasses(item);
+    }
+
+    private boolean sellByDatePassed(Item item) {
+        return item.sellIn < 0;
     }
 
 }
