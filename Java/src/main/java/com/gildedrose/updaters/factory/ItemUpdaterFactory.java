@@ -9,12 +9,16 @@ import com.gildedrose.updaters.impl.LegendaryItemUpdater;
 
 public class ItemUpdaterFactory {
     public static ItemUpdater create(final Item item) {
-        return switch (item.name) {
-            case "Sulfuras, Hand of Ragnaros" -> new LegendaryItemUpdater();
-            case "Aged Brie" -> new AgedBrieUpdater(item);
-            case "Backstage passes to a TAFKAL80ETC concert" -> new BackStagePassesUpdater(item);
-            default -> new DefaultItemUpdater(item);
-        };
+        if (item.name == null) {
+            return new DefaultItemUpdater(item);
+        } else if ("Sulfuras, Hand of Ragnaros".equals(item.name)) {
+            return new LegendaryItemUpdater();
+        } else if ("Aged Brie".equals(item.name)) {
+            return new AgedBrieUpdater(item);
+        } else if (item.name.startsWith("Backstage passes")) {
+            return new BackStagePassesUpdater(item);
+        } else {
+            return new DefaultItemUpdater(item);
+        }
     }
-
 }
