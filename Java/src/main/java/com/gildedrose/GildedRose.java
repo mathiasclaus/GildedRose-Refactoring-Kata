@@ -16,6 +16,8 @@ class GildedRose {
                 return; // TODO handle edge case better, but this cleans up the code for now
             }
 
+            item.sellIn--;
+
             if (qualityIncreasesByAge(item)) {
                 item.quality++;
 
@@ -26,7 +28,6 @@ class GildedRose {
                 item.quality--;
             }
 
-            item.sellIn--;
 
             if (sellByDatePassed(item)) {
                 if (qualityIncreasesByAge(item)) {
@@ -63,11 +64,11 @@ class GildedRose {
     }
 
     private void updateQualityOfBackstagePasses(Item item) {
-        if (item.sellIn <= 10) {
+        if (item.sellIn < 10) {
             item.quality++;
         }
 
-        if (item.sellIn <= 5) {
+        if (item.sellIn < 5) {
             item.quality++;
         }
     }
