@@ -10,10 +10,6 @@ public class DefaultItemUpdater extends AbstractItemUpdater {
 
     @Override
     public void updateQuality() {
-        if (sellByDatePassed()) {
-            item.quality = item.quality - 2;
-        } else {
-            item.quality--;
-        }
+        item.quality = sellByDatePassed() ? item.quality - 2 : item.quality - 1;
     }
 }
