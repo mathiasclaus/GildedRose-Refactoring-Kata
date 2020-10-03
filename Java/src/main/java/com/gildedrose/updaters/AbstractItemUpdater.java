@@ -3,8 +3,10 @@ package com.gildedrose.updaters;
 import com.gildedrose.Item;
 
 public abstract class AbstractItemUpdater implements ItemUpdater{
-    protected static final int MINIMUM_QUALITY = 0;
     private static final int MAXIMUM_QUALITY = 50;
+    protected static final int MINIMUM_QUALITY = 0;
+    protected static final int DEFAULT_QUALITY_FACTOR = 1;
+    protected static final int DEFAULT_PAST_SELL_BY_DATE_QUALITY_FACTOR = 2;
 
     protected final Item item;
 

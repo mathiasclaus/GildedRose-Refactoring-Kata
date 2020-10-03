@@ -10,6 +10,8 @@ public class AgedBrieUpdater extends AbstractItemUpdater {
 
     @Override
     public void updateQuality() {
-        item.quality = sellByDatePassed() ? item.quality + 2 : item.quality + 1;
+        item.quality = sellByDatePassed()
+                ? item.quality + DEFAULT_PAST_SELL_BY_DATE_QUALITY_FACTOR
+                : item.quality + DEFAULT_QUALITY_FACTOR;
     }
 }

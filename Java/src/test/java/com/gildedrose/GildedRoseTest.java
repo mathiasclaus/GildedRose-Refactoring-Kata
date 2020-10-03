@@ -106,7 +106,7 @@ class GildedRoseTest {
 
         @Test
         @DisplayName("increase by two when sellIn is zero")
-        void increasesByTwowhenSellInZero() {
+        void increasesByTwoWhenSellInZero() {
             Item[] items = { new Item("Aged Brie", 0, 10) };
             GildedRose app = new GildedRose(items);
             app.updateQuality();
@@ -217,10 +217,51 @@ class GildedRoseTest {
         @Test
         @DisplayName("drops to 0 when sellIn is negative")
         void dropsToZeroWhenSellInIsNegative() {
-            Item[] items = { new Item("Backstage passes to a TAFKAL80ETC concert", -1, 10) };
+            Item[] items = { new Item("Backstage passes to a heavy metal concert", -1, 10) };
             GildedRose app = new GildedRose(items);
             app.updateQuality();
             assertEquals(0, app.items[0].quality);
         }
+    }
+
+    @Nested
+    @DisplayName("Quality of conjured items")
+    class ConjuredItemsQuality {
+        @Test
+        @DisplayName("decreases by two (twice as fast as normal) when sellIn is positive")
+        void decreasesByTwoWhenSellInPositive() {
+            Item[] items = { new Item("Conjured Mana Cake", 1, 10) };
+            GildedRose app = new GildedRose(items);
+            app.updateQuality();
+            assertEquals(8, app.items[0].quality);
+        }
+
+        @Test
+        @DisplayName("increase by four (twice as fast as normal) when sellIn is zero")
+        void decreasesByFourWhenSellInZero() {
+            Item[] items = { new Item("Conjured Pizza", 0, 10) };
+            GildedRose app = new GildedRose(items);
+            app.updateQuality();
+            assertEquals(6, app.items[0].quality);
+        }
+
+        @Test
+        @DisplayName("decreases by four (twice as fast as normal) when sellIn is negative")
+        void decreasesByFourWhenSellInNegative() {
+            Item[] items = { new Item("Conjured Sword of Zorg", -1, 10) };
+            GildedRose app = new GildedRose(items);
+            app.updateQuality();
+            assertEquals(6, app.items[0].quality);
+        }
+
+        @Test
+        @DisplayName("is never negative")
+        void qualityOfItemNeverMoreThan50() {
+            Item[] items = { new Item("Conjured Code", -1, 0) };
+            GildedRose app = new GildedRose(items);
+            app.updateQuality();
+            assertEquals(0, app.items[0].quality);
+        }
+
     }
 }
