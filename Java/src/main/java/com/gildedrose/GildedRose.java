@@ -12,11 +12,13 @@ class GildedRose {
 
     public void updateQuality() {
         for (Item item : items) {
+            if (isSulfuras(item)) {
+                return; // TODO handle edge case better, but this cleans up the code for now
+            }
+
             if (!isAgedBrie(item) && !isBackstagePasses(item)) {
                 if (item.quality > MINIMUM_QUALITY) {
-                    if (!isSulfuras(item)) {
-                        item.quality = item.quality - 1;
-                    }
+                    item.quality = item.quality - 1;
                 }
             } else {
                 if (item.quality < MAXIMUM_QUALITY) {
@@ -28,17 +30,13 @@ class GildedRose {
                 }
             }
 
-            if (!isSulfuras(item)) {
-                item.sellIn = item.sellIn - 1;
-            }
+            item.sellIn = item.sellIn - 1;
 
             if (item.sellIn < MINIMUM_QUALITY) {
                 if (!isAgedBrie(item)) {
                     if (!isBackstagePasses(item)) {
                         if (item.quality > MINIMUM_QUALITY) {
-                            if (!isSulfuras(item)) {
-                                item.quality = item.quality - 1;
-                            }
+                            item.quality = item.quality - 1;
                         }
                     } else {
                         item.quality = MINIMUM_QUALITY;
