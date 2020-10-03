@@ -17,35 +17,35 @@ class GildedRose {
             }
 
             if (qualityIncreasesByAge(item)) {
-                if (item.quality < MAXIMUM_QUALITY) {
-                    item.quality = item.quality + 1;
+                item.quality = item.quality + 1;
 
-                    if (isBackstagePasses(item)) {
-                        updateQualityOfBackstagePasses(item);
-                    }
+                if (isBackstagePasses(item)) {
+                    updateQualityOfBackstagePasses(item);
                 }
             } else {
-                if (item.quality > MINIMUM_QUALITY) {
-                    item.quality = item.quality - 1;
-                }
+                item.quality = item.quality - 1;
             }
 
             item.sellIn = item.sellIn - 1;
 
             if (sellByDatePassed(item)) {
                 if (qualityIncreasesByAge(item)) {
-                    if (item.quality < MAXIMUM_QUALITY) {
-                        if (isBackstagePasses(item)) {
-                            item.quality = MINIMUM_QUALITY;
-                        } else {
-                            item.quality = item.quality + 1;
-                        }
+                    if (isBackstagePasses(item)) {
+                        item.quality = MINIMUM_QUALITY;
+                    } else {
+                        item.quality = item.quality + 1;
                     }
                 } else {
-                    if (item.quality > MINIMUM_QUALITY) {
-                        item.quality = item.quality - 1;
-                    }
+                    item.quality = item.quality - 1;
                 }
+            }
+
+            if (item.quality < MINIMUM_QUALITY) {
+                item.quality = MINIMUM_QUALITY;
+            }
+
+            if (item.quality > MAXIMUM_QUALITY) {
+                item.quality = MAXIMUM_QUALITY;
             }
         }
     }
@@ -64,15 +64,11 @@ class GildedRose {
 
     private void updateQualityOfBackstagePasses(Item item) {
         if (item.sellIn <= 10) {
-            if (item.quality < MAXIMUM_QUALITY) {
-                item.quality = item.quality + 1;
-            }
+            item.quality = item.quality + 1;
         }
 
         if (item.sellIn <= 5) {
-            if (item.quality < MAXIMUM_QUALITY) {
-                item.quality = item.quality + 1;
-            }
+            item.quality = item.quality + 1;
         }
     }
 
