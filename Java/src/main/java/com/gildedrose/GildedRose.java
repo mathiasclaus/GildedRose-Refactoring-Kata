@@ -1,8 +1,9 @@
 package com.gildedrose;
 
-import java.util.Arrays;
-
 class GildedRose {
+    private static final int MINIMUM_QUALITY = 0;
+    private static final int MAXIMUM_QUALITY = 50;
+
     Item[] items;
 
     public GildedRose(Item[] items) {
@@ -12,24 +13,24 @@ class GildedRose {
     public void updateQuality() {
         for (Item item : items) {
             if (!isAgedBrie(item) && !isBackstagePasses(item)) {
-                if (item.quality > 0) {
+                if (item.quality > MINIMUM_QUALITY) {
                     if (!isSulfuras(item)) {
                         item.quality = item.quality - 1;
                     }
                 }
             } else {
-                if (item.quality < 50) {
+                if (item.quality < MAXIMUM_QUALITY) {
                     item.quality = item.quality + 1;
 
                     if (isBackstagePasses(item)) {
-                        if (item.sellIn < 11) {
-                            if (item.quality < 50) {
+                        if (item.sellIn <= 10) {
+                            if (item.quality < MAXIMUM_QUALITY) {
                                 item.quality = item.quality + 1;
                             }
                         }
 
-                        if (item.sellIn < 6) {
-                            if (item.quality < 50) {
+                        if (item.sellIn <= 5) {
+                            if (item.quality < MAXIMUM_QUALITY) {
                                 item.quality = item.quality + 1;
                             }
                         }
@@ -41,19 +42,19 @@ class GildedRose {
                 item.sellIn = item.sellIn - 1;
             }
 
-            if (item.sellIn < 0) {
+            if (item.sellIn < MINIMUM_QUALITY) {
                 if (!isAgedBrie(item)) {
                     if (!isBackstagePasses(item)) {
-                        if (item.quality > 0) {
+                        if (item.quality > MINIMUM_QUALITY) {
                             if (!isSulfuras(item)) {
                                 item.quality = item.quality - 1;
                             }
                         }
                     } else {
-                        item.quality = 0;
+                        item.quality = MINIMUM_QUALITY;
                     }
                 } else {
-                    if (item.quality < 50) {
+                    if (item.quality < MAXIMUM_QUALITY) {
                         item.quality = item.quality + 1;
                     }
                 }
